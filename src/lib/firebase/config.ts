@@ -1,4 +1,4 @@
-import { toPairs } from 'ramda';
+import { forEach, keys, pipe } from "ramda";
 
 const config: Record<string, string | undefined> = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -9,11 +9,18 @@ const config: Record<string, string | undefined> = {
 	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// When deployed, there are quotes that need to be stripped
-toPairs(config).forEach(([key, value]) => {
+function trimQuotes(key: string) {
+	const value = config[key];
 	if (value?.charAt(0) === '"') {
 		config[key] = value.substring(1, value.length - 1);
 	}
-});
+}
+
+const trimValueQuotes = pipe(
+	keys<Record<string, string | undefined>>,
+	forEach(trimQuotes),
+);
+
+trimValueQuotes(config);
 
 export const firebaseConfig = config;
