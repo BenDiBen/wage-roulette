@@ -4,9 +4,9 @@ import type { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const useUserSession = (initialUser: User) => {
+export const useUserSession = (initialUser?: User) => {
 	// The initialUser comes from the server via a server component
-	const [user, setUser] = useState<User | null>(initialUser);
+	const [user, setUser] = useState<User | undefined>(initialUser);
 	const { refresh } = useRouter();
 
 	// Register the service worker that sends auth state back to server
@@ -26,7 +26,7 @@ export const useUserSession = (initialUser: User) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged((authUser) => {
-			setUser(authUser);
+			setUser(authUser ?? undefined);
 		});
 
 		return () => unsubscribe();
