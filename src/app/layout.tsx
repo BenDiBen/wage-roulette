@@ -1,7 +1,7 @@
 import { Provider } from "@/components/ui/provider";
+import type { PropsWithChildren } from "react";
 
-const RootLayout = (props: { children: React.ReactNode }) => {
-	const { children } = props;
+const RootLayout = ({ children }: PropsWithChildren) => {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body>
