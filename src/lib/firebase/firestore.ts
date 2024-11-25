@@ -20,7 +20,7 @@ import { db } from "@/src/lib/firebase/clientApp";
 
 export async function updateRestaurantImageReference(
 	restaurantId,
-	publicImageUrl
+	publicImageUrl,
 ) {
 	const restaurantRef = doc(collection(db, "restaurants"), restaurantId);
 	if (restaurantRef) {
@@ -32,7 +32,7 @@ const updateWithRating = async (
 	transaction,
 	docRef,
 	newRatingDocument,
-	review
+	review,
 ) => {
 	return;
 };
@@ -78,11 +78,11 @@ export async function getReviewsByRestaurantId(db, restaurantId) {
 
 	const q = query(
 		collection(db, "restaurants", restaurantId, "ratings"),
-		orderBy("timestamp", "desc")
+		orderBy("timestamp", "desc"),
 	);
 
 	const results = await getDocs(q);
-	return results.docs.map(doc => {
+	return results.docs.map((doc) => {
 		return {
 			id: doc.id,
 			...doc.data(),
@@ -100,10 +100,10 @@ export function getReviewsSnapshotByRestaurantId(restaurantId, cb) {
 
 	const q = query(
 		collection(db, "restaurants", restaurantId, "ratings"),
-		orderBy("timestamp", "desc")
+		orderBy("timestamp", "desc"),
 	);
-	const unsubscribe = onSnapshot(q, querySnapshot => {
-		const results = querySnapshot.docs.map(doc => {
+	const unsubscribe = onSnapshot(q, (querySnapshot) => {
+		const results = querySnapshot.docs.map((doc) => {
 			return {
 				id: doc.id,
 				...doc.data(),
@@ -122,13 +122,13 @@ export async function addFakeRestaurantsAndReviews() {
 		try {
 			const docRef = await addDoc(
 				collection(db, "restaurants"),
-				restaurantData
+				restaurantData,
 			);
 
 			for (const ratingData of ratingsData) {
 				await addDoc(
 					collection(db, "restaurants", docRef.id, "ratings"),
-					ratingData
+					ratingData,
 				);
 			}
 		} catch (e) {

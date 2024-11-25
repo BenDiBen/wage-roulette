@@ -8,20 +8,20 @@ import { headers } from "next/headers";
 import { firebaseConfig } from "./config";
 
 export async function getAuthenticatedAppForUser() {
-  const headerStore = await headers();
-  const idToken = headerStore.get("Authorization")?.split("Bearer ")[1];
-  console.log('firebaseConfig', JSON.stringify(firebaseConfig));
-  const firebaseServerApp = initializeServerApp(
-    firebaseConfig,
-    idToken
-      ? {
-          authIdToken: idToken,
-        }
-      : {}
-  );
+	const headerStore = await headers();
+	const idToken = headerStore.get("Authorization")?.split("Bearer ")[1];
+	console.log("firebaseConfig", JSON.stringify(firebaseConfig));
+	const firebaseServerApp = initializeServerApp(
+		firebaseConfig,
+		idToken
+			? {
+					authIdToken: idToken,
+				}
+			: {},
+	);
 
-  const auth = getAuth(firebaseServerApp);
-  await auth.authStateReady();
+	const auth = getAuth(firebaseServerApp);
+	await auth.authStateReady();
 
-  return { firebaseServerApp, currentUser: auth.currentUser };
+	return { firebaseServerApp, currentUser: auth.currentUser };
 }
